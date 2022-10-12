@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" crossorigin="anonymous"></script>
+
+    <script src="js/index.js" type="module"></script>
+    
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <title>Play against Shakmat</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="columns">
+            <div class="column is-three-quarters">
+                <div id="board" style="width: 90vh;"></div>
+            </div>
+
+            <div class="column">
+                <div class="level">
+                    <button class="button is-primary">Start a new game</button>
+                </div>
+
+                <p>Port: <input class="input" type="number" value="8000" id="port-input"></p>
+
+                <p>Play as:</p>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="color">
+                        White
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="color">
+                        Black
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="color">
+                        Random
+                    </label>
+                </div>
+
+                <p>Ms per move: <input class="input" type="number" value="5000" id="ms-input"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+    </script>
+
+</body>
+</html>
