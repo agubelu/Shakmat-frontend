@@ -29,18 +29,18 @@ class Board {
         this.legalMoves = new Map();
     }
 
-    startGame(fen, playerColor, currentTurn) {
+    startGame(fen, playerColor, currentTurn, gameInstance) {
         this.playerColor = playerColor;
         this.currentTurn = currentTurn;
         this.htmlBoard.orientation(playerColor);
         this.htmlBoard.position(fen || "start", true);
+        this.gameInstance = gameInstance;
     }
 
     dragStart(source, piece, position) {
         // Prevent the user from dragging pieces if they are not their
         // own pieces, or if it's the opponent's turn
-        //return this.playerColor == this.currentTurn && piece.startsWith(this.playerColor[0]);
-        return true && piece.startsWith(this.playerColor[0]);
+        return this.playerColor == this.currentTurn && piece.startsWith(this.playerColor[0]);
     }
 
     setMoveAllowed(moveAllowed) {
@@ -108,28 +108,36 @@ class Board {
             return "snapback";
         }
 
-        this.makeMove(source, target);
+        this.gameInstance.handleUserMove(source + target);
     }
 
-    /** Makes a piece move, assuming that it is legal */
-    makeMove(source, target, from_engine) {
-        // TODO: castling, promotion, ep
+    updateBoard(move, newFen, inCheck, legalMoves) {
+        let from = move.slice(0, 2);
+        let to = move.slice(2, 4);
+
+        // Remove all previous check highlights
+        document.querySelectorAll(".highlight-check").forEach(e => e.classList.remove("highlight-check"));
 
         // Remove the previous move highlights, and highlight this move
         document.querySelectorAll(".highlight-last-move").forEach(e => e.classList.remove("highlight-last-move"));
-        for (let sq of [source, target]) {
+        for (let sq of [from, to]) {
             document.querySelector(`.square-${sq}`).classList.add("highlight-last-move");
         }
 
         // Change the current turn
         this.flipTurn();
 
-        // Physically make the move on the board if it's an engine move
-        if (from_engine) {
-            this.htmlBoard.move(`${source}-${target}`);
-        }
+        // Update the list of legal moves
+        this.updateLegalMoves(legalMoves);
 
-        // TODO: notify the server of this move if it's a player move
+        // Update the board to reflect the new position
+        this.htmlBoard.position(newFen, true);
+
+        // If the player is in check, determine where their king is and highlight it
+        if (inCheck) {
+            let kingPos = document.querySelector(`[data-piece=${this.currentTurn[0]}K]`).parentElement;   
+            kingPos.classList.add("highlight-check");
+        }
     }
 }
 
