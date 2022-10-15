@@ -6,8 +6,8 @@ let game = null;
 
 function main() {
     board = new Board();
-    game = new Game(8000, 1000, null, "black", board);
-    game.startGame();
+    game = new Game(8000, 3000, null, "black", board);
+    game.startGame()
 }
 
 document.addEventListener("DOMContentLoaded", main);
