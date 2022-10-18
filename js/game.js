@@ -1,5 +1,5 @@
 class Game {
-    constructor(port, moveMs, fen, playerColor, board) {
+    constructor(port, moveMs, fen, playerColor, useBook, randomOpenings, board) {
         let currentTurn;
 
         if (fen === null || fen == "") {
@@ -19,11 +19,16 @@ class Game {
         this.playerColor = playerColor;
         this.currentTurn = currentTurn;
         this.startFen = fen;
+        this.useBook = useBook;
+        this.alwaysTopOpening = !randomOpenings;
         this.board = board;
     }
 
     /** Sends the server a request to start the game and sets up the board */
     async startGame() {
+        // Configure the engine before the game starts
+        await this.configEngine(this.useBook, this.alwaysTopOpening);
+
         // Send a request to start the game
         let payload = this.startFen != null ? { "fen": this.startFen } : null;
         let resp;
@@ -124,6 +129,19 @@ class Game {
         }
 
         return resp.data.move;
+    }
+
+    /** Configures the engine before the game starts */
+    async configEngine(useBook, alwaysTopOpening) {
+        let payload = { "use_book": useBook, "always_top_line": alwaysTopOpening };
+
+        try {
+            await axios.post(`http://127.0.0.1:${this.port}/config`, payload);
+        } catch (e) {
+            alert("Something went wrong, is Shakmat listening in the correct port?");
+            throw e;
+        }
+
     }
 }
 

@@ -18,12 +18,14 @@ async function startNewGame(event) {
     let moveMs = formData.get("move-ms");
     let port = formData.get("port");
     let playerColor = formData.get("color");
+    let useBook = formData.get("use-book") === "on";
+    let randomOpenings = formData.get("randomize-openings") === "on";
 
     if (fen.length == 0) {
         fen = null;
     }
 
-    let game = new Game(port, moveMs, fen, playerColor, board);
+    let game = new Game(port, moveMs, fen, playerColor, useBook, randomOpenings, board);
     game.startGame();
 }
 
