@@ -2,7 +2,7 @@ class Game {
     constructor(port, moveMs, fen, playerColor, board) {
         let currentTurn;
 
-        if (fen === null) {
+        if (fen === null || fen == "") {
             currentTurn = "white";
         } else {
             let turn = fen.split(" ")[1];
@@ -55,7 +55,6 @@ class Game {
      * otherwise the server will just complain.
      */
     async makeMove(move) {
-        // TODO: handle castling encoding
         let payload = { "move": move };
         let resp;
 
@@ -77,8 +76,6 @@ class Game {
 
     /** Performs an instance of user move -> computer reply */
     async handleUserMove(move) {
-        // TODO: handle end states
-
         // Send the user's move
         await this.makeMove(move);
 

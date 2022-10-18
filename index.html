@@ -27,29 +27,32 @@
             </div>
 
             <div class="column">
-                <div class="level">
-                    <button class="button is-primary">Start a new game</button>
-                </div>
+                <form id="create-game-form">
+                    <div class="level">
+                        <button class="button is-primary" id="start-game">Start a new game</button>
+                    </div>
 
-                <p>Port: <input class="input" type="number" value="8000" id="port-input"></p>
+                    <p>Port: <input class="input" type="number" value="8000" name="port"></p>
 
-                <p>Play as:</p>
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="color">
-                        White
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="color">
-                        Black
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="color">
-                        Random
-                    </label>
-                </div>
+                    <p>Play as:</p>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="color" value="white" checked>
+                            White
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="color" value="black">
+                            Black
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="color" value="random">
+                            Random
+                        </label>
+                    </div>
 
-                <p>Ms per move: <input class="input" type="number" value="5000" id="ms-input"></p>
+                    <p>Ms per move: <input class="input" type="number" value="5000" name="move-ms"></p>
+                    <p>FEN: <input class="input" type="text" name="fen"></p>
+                </form>
             </div>
         </div>
     </div>
