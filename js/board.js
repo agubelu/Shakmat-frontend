@@ -115,7 +115,11 @@ class Board {
             return "snapback";
         }
 
-        this.gameInstance.handleUserMove(source + target);
+        // Check if this move is a pawn promotion. In that case, always
+        // promote to queen for simplicity.
+        let extra = this.isPawnPromotion(source, target) ? "q" : "";
+
+        this.gameInstance.handleUserMove(source + target + extra);
     }
 
     updateBoard(move, newFen, inCheck, legalMoves) {
@@ -138,23 +142,40 @@ class Board {
         this.updateLegalMoves(legalMoves);
 
         // Update the board to reflect the new position
-        this.htmlBoard.position(newFen, true);
-        
+        this.htmlBoard.position(newFen, this.currentTurn == this.playerColor);
+    
 
         // If the player is in check, determine where their king is and highlight it
         if (inCheck) {
-            let kingSq = this.findKing(this.currentTurn);
-            document.querySelector(`.square-${kingSq}`).classList.add("highlight-check");
+            this.highlightCheck();
         }
 
         // Check if an end state has been reached
         if (this.isFinished()) {
             if (inCheck) {
-                alert("Checkmate!");
+                this.animateCheckmate();
             } else {
-                alert("Draw");
+                this.highlightDraw();
             }
         }
+    }
+
+    highlightCheck() {
+        let kingSq = this.findKing(this.currentTurn);
+        document.querySelector(`.square-${kingSq}`).classList.add("highlight-check");
+    }
+
+    highlightDraw() {
+        let kingWhite = this.findKing("white");
+        let kingBlack = this.findKing("black");
+        for (let kingSq of [kingWhite, kingBlack]) {
+            document.querySelector(`.square-${kingSq}`).classList.add("highlight-draw");
+        }
+    }
+
+    animateCheckmate() {
+        let kingSq = this.findKing(this.currentTurn);
+        document.querySelector(`.square-${kingSq}`).classList.add("checkmate");
     }
 
     /** Determines if a move is a castling move and returns it in
@@ -197,6 +218,20 @@ class Board {
                 return sq;
             }
         }
+    }
+
+    isPawnPromotion(from, to) {
+        // Find the "from" square
+        let from_sq = document.querySelector(`.square-${from}`);
+
+        // Find the piece type inside and whether the destination is
+        // one of the promotion ranks
+        let piece_img = from_sq.querySelector("img");
+        let piece = piece_img.getAttribute("data-piece");
+        let is_pawn = piece.includes("P");
+        let to_promotion_rank = to.includes("1") || to.includes("8");
+
+        return is_pawn && to_promotion_rank;
     }
 }
 

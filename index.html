@@ -11,9 +11,16 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="js/index.js" type="module"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HZMFH8Q4CX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-HZMFH8Q4CX');
+    </script>
     
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <title>Play against Shakmat</title>
@@ -23,17 +30,14 @@
     <div class="container">
         <div class="columns">
             <div class="column is-three-quarters">
-                <div id="board" style="width: 90vh;"></div>
+                <div class="board-container">
+                    <div id="eval-bar"><p id="eval-text" class="playerWinning whiteWinning">0.0</p></div>
+                    <div id="board" class="board-disabled" style="width: 90vh;"></div>
+                </div>
             </div>
 
             <div class="column">
                 <form id="create-game-form">
-                    <div class="level">
-                        <button class="button is-primary" id="start-game">Start a new game</button>
-                    </div>
-
-                    <p>Port: <input class="input" type="number" value="8000" name="port"></p>
-
                     <p>Play as:</p>
                     <div class="control">
                         <label class="radio">
@@ -50,18 +54,20 @@
                         </label>
                     </div>
 
-                    <p>Ms per move: <input class="input" type="number" value="5000" name="move-ms"></p>
-                    <p>FEN: <input class="input" type="text" name="fen"></p>
+                    <p>Seconds per move for Shakmat: <input class="input" type="number" step="0.01" value="3.00" name="move-ms"></p>
+                    <p>Starting position (FEN): <input class="input" type="text" name="fen" placeholder="Default"></p>
                     <p>Use opening book: <input class="checkbox" type="checkbox" name="use-book"></p>
-                    <p>Randomize openings: <input class="checkbox" type="checkbox" name="randomize-openings"></p>
+                    <p>Randomize book openings: <input class="checkbox" type="checkbox" name="randomize-openings"></p>
+
+                    <div class="level">
+                        <button disabled class="button is-info" id="start-game">
+                            Loading Shakmat-WASM <span class="loader" id="spinner"></span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    
-    <script>
-        
-    </script>
 
 </body>
 </html>

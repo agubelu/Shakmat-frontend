@@ -1,3 +1,16 @@
+:root {
+    --white-bar: hsl(0, 0%, 88%);
+    --black-bar: hsl(0, 0%, 25%);
+}
+
+.container {
+    padding-top: 1rem;
+}
+
+.board-disabled {
+    opacity: 0.4;
+}
+
 .highlight-last-move {
     box-shadow: inset 0 0 3px 3px yellow;
 }
@@ -12,4 +25,85 @@
 
 .highlight-dest {
     background: radial-gradient(rgba(20, 85, 30, 0.5) 19%, rgba(0, 0, 0, 0) 20%);
+}
+
+.highlight-draw {
+    background: radial-gradient(ellipse at center, rgb(255, 136, 0) 0%, rgb(255, 136, 0) 25%, rgba(169, 0, 0, 0) 89%, rgba(158, 0, 0, 0) 100%);
+}
+
+.highlight-draw img {
+    transform: rotateY(0deg) rotate(45deg);
+    transition: transform .5s;
+}
+
+.checkmate img {
+    transform: rotateY(0deg) rotate(90deg);
+    transition: transform .5s;
+}
+
+#board {
+    margin-left: .5rem;
+}
+
+/** Eval bar **/
+
+#eval-bar {
+    width: 20px !important;
+    border-radius: 8px;
+    background: linear-gradient(to top, var(--white-bar) 50%, var(--black-bar) 0%);
+    display: flex;
+}
+
+#eval-bar #eval-text {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bolder;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+}
+
+.playerWinning {
+    align-self: flex-end;
+}
+
+.whiteLosing {
+    color: var(--white-bar);
+}
+
+.whiteWinning {
+    color: var(--black-bar);
+}
+
+.board-container {
+    display: flex;
+}
+
+
+@keyframes grow {
+    from {
+        transform: scaleY(0);
+    }
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin-left: 1rem;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
